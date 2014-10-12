@@ -1,0 +1,98 @@
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <fr.bowserf.nbodyproblem.opengl.OpenGLView
+            android:id="@+id/openglview_ncorps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/left_drawer"
+        android:layout_width="230dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/background_drawer"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_calculate_method"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/calculate_method"
+            android:textColor="@color/gray_text" />
+
+        <RadioGroup
+            android:id="@+id/radio_group_method"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/radio_button_java"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/radio_button_java"
+                android:textColor="@color/gray_text" />
+
+            <RadioButton
+                android:id="@+id/radio_button_rs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/radio_button_rs"
+                android:textColor="@color/gray_text" />
+
+            <RadioButton
+                android:id="@+id/radio_button_ndk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/radio_button_ndk"
+                android:textColor="@color/gray_text" />
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="190dp"
+            android:layout_height="1dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/gray_text"
+            android:orientation="vertical" />
+
+        <TextView
+            android:id="@+id/tv_combien_corps"
+            android:layout_width="180dp"
+            android:layout_height="20dp"
+            android:text="@string/choose_nb_bodies"
+            android:textColor="@color/gray_text" />
+
+        <SeekBar
+            android:id="@+id/bar_nb_corps"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:max="500"
+            android:progress="50" />
+
+        <TextView
+            android:id="@+id/tv_nb_corps"
+            android:layout_width="150dp"
+            android:layout_height="20dp"
+            android:text=""
+            android:textColor="@color/gray_text" />
+    </LinearLayout>
+
+</android.support.v4.widget.DrawerLayout>
