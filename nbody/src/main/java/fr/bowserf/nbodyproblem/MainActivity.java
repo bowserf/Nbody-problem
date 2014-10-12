@@ -143,6 +143,7 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
     }
 
     private void initializeFunction(){
+        mFunction.freeMemory();
         switch (mMethod) {
             case JAVA:
                 mFunction = new CalculationCPU(mBodiesNumber);

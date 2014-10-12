@@ -7,19 +7,15 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-/*
- * Class:     fr_bowserf_nbodyproblem_CalculationNDK
- * Method:    init
- */
+
 JNIEXPORT void JNICALL Java_fr_bowserf_nbodyproblem_CalculationNDK_init
 (JNIEnv *, jobject, jint, jfloat, jfloat, jfloatArray, jfloatArray, jfloatArray);
 
-/*
- * Class:     fr_bowserf_nbodyproblem_CalculationNDK
- * Method:    computeNewPosition
- */
+JNIEXPORT void JNICALL Java_fr_bowserf_nbodyproblem_CalculationNDK_freeNativeMemory
+(JNIEnv *, jobject);
+
 JNIEXPORT jfloatArray JNICALL Java_fr_bowserf_nbodyproblem_CalculationNDK_computeNewPosition
-  (JNIEnv *, jobject);
+(JNIEnv *, jobject);
 
 #ifdef __cplusplus
 }

@@ -53,13 +53,11 @@ public class CalculationCPU extends ComputationFunction {
 		for(int i = 0 ; i < N ; i++){
             final int cpt = i * 3;
 			float[] acc = new float[]{0, 0, 0};
-			float[] numerateur;
-			float denominateur;
 			for(int j = 0 ; j < N ;j++){
                 final int cptJ = j * 3;
                 final float squaredNorm = squaredNorm(Arrays.copyOfRange(p, cpt, cpt + 3), Arrays.copyOfRange(p, cptJ, cptJ + 3));
-				denominateur = (float)Math.pow(squaredNorm + Math.pow(Constantes.EPSILON, 2), 3/2);
-				numerateur = multiplication(m[j], subtraction(Arrays.copyOfRange(p, cpt, cpt + 3), Arrays.copyOfRange(p, cptJ, cptJ + 3)));
+                float denominateur = (float)Math.pow(squaredNorm + Math.pow(Constantes.EPSILON, 2), 3/2);
+                float[] numerateur = multiplication(m[j], subtraction(Arrays.copyOfRange(p, cpt, cpt + 3), Arrays.copyOfRange(p, cptJ, cptJ + 3)));
 				acc = addition(acc, multiplication(1 / denominateur, numerateur));
 			}
             System.arraycopy(addition(Arrays.copyOfRange(v, cpt, cpt + 3) , multiplication(Constantes.G, acc)), 0, v, cpt, 3);

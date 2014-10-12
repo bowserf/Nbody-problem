@@ -13,8 +13,7 @@ public class CalculationGPU extends ComputationFunction {
     private static final String TAG = "CALCULATION_GPU";
 
     private ScriptC_ncorps mScript;
-    private Allocation mOutAllocation;
-    private Allocation mInAllocation;
+    private Allocation mNewPositionsAlloc;
     private Allocation mRowIndicesAlloc;
 
     public CalculationGPU(final @NonNull Context context, final int nbPoints) {
@@ -22,8 +21,8 @@ public class CalculationGPU extends ComputationFunction {
 
         final RenderScript rs = RenderScript.create(context);
 
-        int rowWidth = 3;
-        int[] rowIndices = new int[N];
+        final int rowWidth = 3;
+        final int[] rowIndices = new int[N];
         //on crée un tableau de taille N contenant les chiffres de 3 en 3
         for (int i = 0; i < N; i++) {
             rowIndices[i] = i * rowWidth;
@@ -32,9 +31,10 @@ public class CalculationGPU extends ComputationFunction {
         mRowIndicesAlloc = Allocation.createSized(rs, Element.I32(rs), N, Allocation.USAGE_SCRIPT);
 
         final Type t = new Type.Builder(rs, Element.F32(rs)).setX(N * 3).create();
-        mInAllocation = Allocation.createTyped(rs, t);
-        mOutAllocation = Allocation.createTyped(rs, t);
+        final Allocation positionAlloc = Allocation.createTyped(rs, t);
         final Allocation vitesseAlloc = Allocation.createTyped(rs, t);
+        mNewPositionsAlloc = Allocation.createTyped(rs, t);
+
         final Type t2 = new Type.Builder(rs, Element.F32(rs)).setX(N).create();
         final Allocation masseAlloc = Allocation.createTyped(rs, t2);
 
@@ -43,7 +43,7 @@ public class CalculationGPU extends ComputationFunction {
         initVitesse();
 
         mRowIndicesAlloc.copyFrom(rowIndices);
-        mInAllocation.copyFrom(p);
+        positionAlloc.copyFrom(p);
         masseAlloc.copyFrom(m);
         vitesseAlloc.copyFrom(v);
 
@@ -53,19 +53,17 @@ public class CalculationGPU extends ComputationFunction {
         mScript.set_N(N);
         mScript.set_epsilon(Constantes.EPSILON);
 
-        mScript.bind_pIn(mInAllocation);
-        mScript.bind_pOut(mOutAllocation);
+        mScript.bind_positions(positionAlloc);
+        mScript.bind_newPositions(mNewPositionsAlloc);
 
-        mScript.bind_masse(masseAlloc);
-        mScript.bind_vitesse(vitesseAlloc);
+        mScript.bind_mass(masseAlloc);
+        mScript.bind_speed(vitesseAlloc);
     }
 
     public float[] computation() {
         mScript.forEach_root(mRowIndicesAlloc, mRowIndicesAlloc);
-        mOutAllocation.copyTo(p);
-        mScript.bind_pIn(mOutAllocation);
+        mNewPositionsAlloc.copyTo(p);
+        mScript.bind_positions(mNewPositionsAlloc);
         return p;
     }
-
-
 }

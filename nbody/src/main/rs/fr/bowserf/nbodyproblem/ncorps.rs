@@ -2,10 +2,10 @@
 #pragma rs java_package_name(fr.bowserf.nbodyproblem)
 #pragma rs_fp_imprecise
 
-float *pIn;
-float *pOut;
-float *vitesse;
-float *masse;
+float *positions;
+float *newPositions;
+float *speed;
+float *mass;
 
 uint N;
 float G;
@@ -33,29 +33,27 @@ static float squaredNorm(float diffX, float diffY, float diffZ){
 void root(const int32_t *v_in, int32_t *v_out, const void *usrData, uint32_t x, uint32_t y) {
 
 	int32_t i = *v_in;
-	
-	float denominateur;
-	float3 numerateur;
+
 	float3 acc = {0,0,0};
 	
 	for(int w = 0 ; w < N ; w++){
 		int j = w * 3;
 
-		float squared = squaredNorm(pIn[j] - pIn[i], pIn[j+1] - pIn[i+1], pIn[j+2] - pIn[i+2]);
-		denominateur = pow(squared  + pow(epsilon, 2), 3/2);
+		float squared = squaredNorm(positions[j] - positions[i], positions[j+1] - positions[i+1], positions[j+2] - positions[i+2]);
+		float denominateur = pow(squared  + pow(epsilon, 2), 3/2);
 
-		float3 diff = soustraction(pIn + i, pIn + j);
-		numerateur = multFloat3(masse[w], diff);
+		float3 diff = soustraction(positions + i, positions + j);
+		float3 numerateur = multFloat3(mass[w], diff);
 
 		acc = additionFloat3(acc, multFloat3(1/denominateur, numerateur));
 	}
 	
 	float3 acceleration = multFloat3(G, acc);
 
-	vitesse[i] +=  acceleration[0];
-	vitesse[i+1] +=  acceleration[1];
-	vitesse[i+2] +=  acceleration[2];
-	pOut[i] = vitesse[i] + pIn[i];
-	pOut[i+1] = vitesse[i+1] + pIn[i+1];
-	pOut[i+2] = vitesse[i+2] + pIn[i+2];
+	speed[i] +=  acceleration[0];
+	speed[i+1] +=  acceleration[1];
+	speed[i+2] +=  acceleration[2];
+	newPositions[i] = speed[i] + positions[i];
+	newPositions[i+1] = speed[i+1] + positions[i+1];
+	newPositions[i+2] = speed[i+2] + positions[i+2];
 }

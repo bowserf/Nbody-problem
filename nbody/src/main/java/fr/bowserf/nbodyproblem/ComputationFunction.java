@@ -38,6 +38,7 @@ public abstract class ComputationFunction {
     }
 
     public abstract float[] computation();
+    public void freeMemory(){}
 
     public float[] getInitialPosition() {
         return p;

@@ -10,6 +10,7 @@ public class CalculationNDK extends ComputationFunction{
     private native void init(final int n, final float epsilon, final float G, final float[]p,
                                 final float[]v, final float[]m);
     private native float[] computeNewPosition();
+    private native void freeNativeMemory();
 
     public CalculationNDK(final int nbPoints) {
         super(nbPoints);
@@ -24,5 +25,10 @@ public class CalculationNDK extends ComputationFunction{
     @Override
     public float[] computation() {
         return computeNewPosition();
+    }
+
+    @Override
+    public void freeMemory() {
+        freeNativeMemory();
     }
 }
