@@ -7,7 +7,7 @@
 
 #define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "computeposition-ndk", __VA_ARGS__))
 
-jfloat epsilon;
+jfloat squaredEpsilon;
 jlong N;
 jfloat G;
 
@@ -21,7 +21,7 @@ static jfloatArray result = NULL;
 JNIEXPORT void JNICALL Java_fr_bowserf_nbodyproblem_CalculationNDK_init
 (JNIEnv *env, jobject obj, jint _N, jfloat _epsilon, jfloat _G, jfloatArray _p, jfloatArray _v, jfloatArray _m){
 
-	epsilon = (float)_epsilon;
+	squaredEpsilon = pow(_epsilon, 2);
 	N = (int)_N;
 	G = (float)_G;
 
@@ -83,7 +83,7 @@ JNIEXPORT jfloatArray JNICALL Java_fr_bowserf_nbodyproblem_CalculationNDK_comput
 
 		for(j = 0 ; j < N ; j++){
             float square = squaredNorm(p + i * 3, p + j * 3);
-			float denominateur = (float) pow(square + pow(epsilon, 2), 3/2);
+			float denominateur = (float) pow(square + squaredEpsilon, 3/2);
 			float *resultSub = soustraction(p + i * 3, p + j * 3);
 			float *numerateur = mult(m[j], resultSub);
 			float *resultMult = mult(1/denominateur, numerateur);

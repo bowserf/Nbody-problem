@@ -1,6 +1,6 @@
 #pragma version(1)
 #pragma rs java_package_name(fr.bowserf.nbodyproblem)
-#pragma rs_fp_imprecise
+#pragma rs_fp_relaxed
 
 float *positions;
 float *newPositions;
@@ -35,12 +35,14 @@ void root(const int32_t *v_in, int32_t *v_out, const void *usrData, uint32_t x, 
 	int32_t i = *v_in;
 
 	float3 acc = {0,0,0};
+
+	float squaredEpsilon = pow(epsilon, 2);
 	
 	for(int w = 0 ; w < N ; w++){
 		int j = w * 3;
 
 		float squared = squaredNorm(positions[j] - positions[i], positions[j+1] - positions[i+1], positions[j+2] - positions[i+2]);
-		float denominateur = pow(squared  + pow(epsilon, 2), 3/2);
+		float denominateur = pow(squared  + squaredEpsilon, 3/2);
 
 		float3 diff = soustraction(positions + i, positions + j);
 		float3 numerateur = multFloat3(mass[w], diff);

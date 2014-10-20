@@ -5,24 +5,26 @@ import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import fr.bowserf.nbodyproblem.opengl.OpenGLView;
 
-public class MainActivity extends Activity implements RadioGroup.OnCheckedChangeListener,
-        SeekBar.OnSeekBarChangeListener {
+public class MainActivity extends Activity implements RadioGroup.OnCheckedChangeListener, View.OnClickListener{
 
     @SuppressWarnings("unused")
     private static final String TAG = "MAIN_ACTIVITY";
+
+    private static final int STEP_BODIES = 25;
 
     private OpenGLView mGLSurfaceView;
     private DrawerLayout mDrawer;
@@ -30,9 +32,10 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
     private LinearLayout mLinearLayout;
 
     private ComputationFunction mFunction;
-    private int mBodiesNumber;
-    private boolean mIsRunning;
-    private ComputationMethod mMethod;
+    private boolean mIsRunning = false;
+    private ComputationMethod mMethod = ComputationMethod.JAVA;
+
+    private int mNbBodiesNumber = 50;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -54,29 +57,28 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 
         final TextView tvNbCorps = (TextView) findViewById(R.id.tv_nb_corps);
         assert (tvNbCorps != null);
-        final SeekBar nbCorps = (SeekBar) findViewById(R.id.bar_nb_corps);
-        assert (nbCorps != null);
+        final Button lessBody = (Button)findViewById(R.id.less_body);
+        assert(lessBody != null);
+        final Button moreBody = (Button)findViewById(R.id.more_body);
+        assert(moreBody != null);
         final RadioGroup chooseMethod = (RadioGroup) findViewById(R.id.radio_group_method);
         assert (chooseMethod != null);
 
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,
                 mDrawer,
-                R.drawable.ic_drawer,
                 R.string.drawer_open,
                 R.string.drawer_close
         );
         mDrawer.setDrawerListener(mDrawerToggle);
 
-        tvNbCorps.setText(getResources().getString(R.string.nb_bodies, 50));
+        tvNbCorps.setText(String.valueOf(mNbBodiesNumber));
         chooseMethod.check(R.id.radio_button_java);
 
         chooseMethod.setOnCheckedChangeListener(this);
-        nbCorps.setOnSeekBarChangeListener(this);
+        lessBody.setOnClickListener(this);
+        moreBody.setOnClickListener(this);
 
-        mBodiesNumber = 50;
-        mIsRunning = false;
-        mMethod = ComputationMethod.JAVA;
         mFunction = mGLSurfaceView.getRenderer().getFunction();
     }
 
@@ -129,33 +131,20 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
         }
     }
 
-    @Override
-    public void onProgressChanged(final @NonNull SeekBar arg0, final int nb,
-                                  final boolean arg2) {
-        mBodiesNumber = nb;
-        if (nb == 0)
-            mBodiesNumber++;
-
-        final TextView tvNbBodies = (TextView) findViewById(R.id.tv_nb_corps);
-        tvNbBodies.setText(getResources().getString(R.string.nb_bodies, mBodiesNumber));
-        initializeFunction();
-        mGLSurfaceView.getRenderer().initialisation(mFunction, mBodiesNumber);
-    }
-
     private void initializeFunction(){
         mFunction.freeMemory();
         switch (mMethod) {
             case JAVA:
-                mFunction = new CalculationCPU(mBodiesNumber);
-                mGLSurfaceView.getRenderer().initialisation(mFunction, mBodiesNumber);
+                mFunction = new CalculationCPU(mNbBodiesNumber);
+                mGLSurfaceView.getRenderer().initialisation(mFunction, mNbBodiesNumber);
                 break;
             case RENDERSCRIPT:
-                mFunction = new CalculationGPU(this, mBodiesNumber);
-                mGLSurfaceView.getRenderer().initialisation(mFunction, mBodiesNumber);
+                mFunction = new CalculationGPU(this, mNbBodiesNumber);
+                mGLSurfaceView.getRenderer().initialisation(mFunction, mNbBodiesNumber);
                 break;
             case NDK:
-                mFunction = new CalculationNDK(mBodiesNumber);
-                mGLSurfaceView.getRenderer().initialisation(mFunction, mBodiesNumber);
+                mFunction = new CalculationNDK(mNbBodiesNumber);
+                mGLSurfaceView.getRenderer().initialisation(mFunction, mNbBodiesNumber);
                 break;
             default:
                 break;
@@ -167,14 +156,6 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
         final MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.start_computation, menu);
         return true;
-    }
-
-    @Override
-    public void onStartTrackingTouch(final @NonNull SeekBar arg0) {
-    }
-
-    @Override
-    public void onStopTrackingTouch(final @NonNull SeekBar arg0) {
     }
 
     @Override
@@ -199,5 +180,27 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
     public void onConfigurationChanged(final @NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onClick(final @NonNull View v) {
+        switch(v.getId()){
+            case R.id.less_body:
+                if(mNbBodiesNumber > STEP_BODIES)
+                    mNbBodiesNumber -= STEP_BODIES;
+                break;
+            case R.id.more_body:
+                mNbBodiesNumber += STEP_BODIES;
+                break;
+        }
+
+        final TextView tvNbBodies = (TextView) findViewById(R.id.tv_nb_corps);
+        tvNbBodies.setText(String.valueOf(mNbBodiesNumber));
+        initializeFunction();
+        mGLSurfaceView.getRenderer().initialisation(mFunction, mNbBodiesNumber);
+    }
+
+    public enum ComputationMethod {
+        JAVA, RENDERSCRIPT, NDK
     }
 }
