@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="gray_text">#cccccc</color>
+    <color name="separator">#444444</color>
     <color name="background_drawer">#222222</color>
+    <color name="item_selected">#888888</color>
 </resources>

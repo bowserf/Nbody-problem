@@ -44,8 +44,8 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
 
         final ActionBar bar = getActionBar();
         if (bar != null) {
-            getActionBar().setDisplayHomeAsUpEnabled(true);
-            getActionBar().setHomeButtonEnabled(true);
+            bar.setDisplayHomeAsUpEnabled(true);
+            bar.setHomeButtonEnabled(true);
         }
 
         mGLSurfaceView = (OpenGLView) findViewById(R.id.openglview_ncorps);

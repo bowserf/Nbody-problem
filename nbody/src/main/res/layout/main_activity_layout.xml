@@ -27,7 +27,7 @@
 
     <LinearLayout
         android:id="@+id/left_drawer"
-        android:layout_width="230dp"
+        android:layout_width="240dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/background_drawer"
@@ -39,8 +39,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/calculate_method"
-            android:textSize="16sp"
-            android:textColor="@color/gray_text" />
+            android:textColor="@color/gray_text"
+            android:textSize="16sp" />
 
         <RadioGroup
             android:id="@+id/radio_group_method"
@@ -76,45 +76,61 @@
             android:layout_width="190dp"
             android:layout_height="1dp"
             android:layout_marginBottom="10dp"
-            android:background="@color/gray_text"/>
+            android:background="@color/gray_text" />
 
         <TextView
-            android:layout_width="180dp"
-            android:layout_height="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/choose_nb_bodies"
-            android:textSize="16sp"
-            android:textColor="@color/gray_text" />
+            android:textColor="@color/gray_text"
+            android:textSize="16sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/less_body"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="-"
-                tools:ignore="HardcodedText" />
+                android:textColor="@android:color/white"
+                tools:ignore="HardcodedText"
+                android:background="@drawable/background_buttons"
+                android:layout_weight="0.35"/>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/separator" />
 
             <TextView
                 android:id="@+id/tv_nb_corps"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="50"
-                android:textSize="16sp"
                 android:textColor="@color/gray_text"
-                tools:ignore="HardcodedText" />
+                android:textSize="16sp"
+                android:gravity="center"
+                android:layout_weight="0.3"/>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:background="@color/separator" />
 
             <Button
                 android:id="@+id/more_body"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="+"
+                android:layout_weight="0.35"
+                android:textColor="@android:color/white"
+                android:background="@drawable/background_buttons"
                 tools:ignore="HardcodedText" />
 
-            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </android.support.v4.widget.DrawerLayout>
