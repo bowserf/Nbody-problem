@@ -1,5 +1,5 @@
 .gradle
-gradle/
+/gradle/
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
@@ -9,5 +9,5 @@ gradle/
 *.so
 *.o
 *.d
-gradlew
-gradlew.bat
+/gradlew
+/gradlew.bat
