@@ -10,3 +10,4 @@
 *.d
 /gradlew
 /gradlew.bat
+/gradle.properties

@@ -21,13 +21,13 @@ static jfloatArray result = NULL;
 JNIEXPORT void JNICALL Java_fr_bowserf_nbodyproblem_CalculationNDK_init
 (JNIEnv *env, jobject obj, jint _N, jfloat _epsilon, jfloat _G, jfloatArray _p, jfloatArray _v, jfloatArray _m){
 
-	squaredEpsilon = pow(_epsilon, 2);
+    squaredEpsilon = pow(_epsilon, 2);
 	N = (int)_N;
 	G = (float)_G;
 
-	p = (*env)->GetFloatArrayElements(env, _p, 0);
-	v = (*env)->GetFloatArrayElements(env, _v, 0);
-	m = (*env)->GetFloatArrayElements(env, _m, 0);
+    p = (*env)->GetFloatArrayElements(env, _p, 0);
+    v = (*env)->GetFloatArrayElements(env, _v, 0);
+    m = (*env)->GetFloatArrayElements(env, _m, 0);
 
     jfloatArray result2;
     result2 = (*env)->NewFloatArray(env, N*3);
@@ -35,15 +35,15 @@ JNIEXPORT void JNICALL Java_fr_bowserf_nbodyproblem_CalculationNDK_init
 }
 
 float* soustraction(float *p1, float *p2){
-	float *rep = (float*)malloc(3 * sizeof(float));
-	rep[0] = p2[0] - p1[0];
-	rep[1] = p2[1] - p1[1];
-	rep[2] = p2[2] - p1[2];
+    float *rep = (float*)malloc(3 * sizeof(float));
+    rep[0] = p2[0] - p1[0];
+    rep[1] = p2[1] - p1[1];
+    rep[2] = p2[2] - p1[2];
 	return rep;
 }
 
 float* addition(float *p1, float *p2){
-	float *rep = (float*)malloc(3 * sizeof(float));
+    float *rep = (float*)malloc(3 * sizeof(float));
 	rep[0] = p1[0] + p2[0];
 	rep[1] = p1[1] + p2[1];
 	rep[2] = p1[2] + p2[2];
@@ -65,7 +65,7 @@ float* mult(float m, float *p){
 }
 
 float squaredNorm(float *p1, float *p2){
-	return  (float) sqrt( pow(p2[0]- p1[0], 2 ) + pow( p2[1] - p1[1], 2 ) + pow( p2[2] - p1[2], 2 ) );
+	return (float) sqrt( pow(p2[0]- p1[0], 2 ) + pow( p2[1] - p1[1], 2 ) + pow( p2[2] - p1[2], 2 ) );
 }
 
 JNIEXPORT jfloatArray JNICALL Java_fr_bowserf_nbodyproblem_CalculationNDK_computeNewPosition(JNIEnv *env, jobject obj){
@@ -83,7 +83,7 @@ JNIEXPORT jfloatArray JNICALL Java_fr_bowserf_nbodyproblem_CalculationNDK_comput
 
 		for(j = 0 ; j < N ; j++){
             float square = squaredNorm(p + i * 3, p + j * 3);
-			float denominateur = (float) pow(square + squaredEpsilon, 3/2);
+            float denominateur = (float) pow(square + squaredEpsilon, 3/2);
 			float *resultSub = soustraction(p + i * 3, p + j * 3);
 			float *numerateur = mult(m[j], resultSub);
 			float *resultMult = mult(1/denominateur, numerateur);
@@ -116,7 +116,7 @@ JNIEXPORT jfloatArray JNICALL Java_fr_bowserf_nbodyproblem_CalculationNDK_comput
 	}
 
     free(newPositions);
-	(*env)->SetFloatArrayRegion(env, result, 0, N*3, p);
+    (*env)->SetFloatArrayRegion(env, result, 0, N*3, p);
 	return result;
 }
 

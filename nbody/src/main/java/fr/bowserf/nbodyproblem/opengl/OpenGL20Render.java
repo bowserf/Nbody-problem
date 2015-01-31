@@ -16,13 +16,6 @@ import javax.microedition.khronos.opengles.GL10;
 import fr.bowserf.nbodyproblem.CalculationCPU;
 import fr.bowserf.nbodyproblem.ComputationFunction;
 
-
-/**
- * This class manage how display the different body on the view
- *
- * @author Frederic Torcheux
- * @version 0.1
- */
 public class OpenGL20Render implements GLSurfaceView.Renderer {
 
     private static final String TAG = "OPENGL_RENDER";
@@ -61,11 +54,16 @@ public class OpenGL20Render implements GLSurfaceView.Renderer {
     }
 
     private void calcul() {
+        final long start = System.currentTimeMillis();
         vertices = mFunction.computation();
+        final long end = System.currentTimeMillis();
+        final long time = end - start;
+        Log.i(TAG, "time : " + time);
+
         fillBuffer();
     }
 
-    private void fillBuffer(){
+    private void fillBuffer() {
         vertexBuf = ByteBuffer.allocateDirect(vertices.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
         vertexBuf.put(vertices).position(0);
     }
@@ -95,17 +93,17 @@ public class OpenGL20Render implements GLSurfaceView.Renderer {
         Matrix.setLookAtM(mViewMatrix, 0, eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
 
         //=====================================================================
-        // Vertex Shader: function qui est r�alis�e pour chaque sommet
-        // Fragment Shader: function qui est r�alis�e pour chaque point dessin�
+        // Vertex Shader: fonction qui est réalisée pour chaque sommet
+        // Fragment Shader: fonction qui est réalisée pour chaque point dessiné
         //=====================================================================
         final String vertexShader =
-				        "uniform mat4 u_MVPMatrix;      \n"
-						+ "attribute vec4 a_Position;     \n"
-						+ "void main()                    \n"
-						+ "{                              \n"
-						+ "   gl_Position = u_MVPMatrix * a_Position;   \n"
-						+ "   gl_PointSize = 5.0;       \n"
-						+ "}                              \n";
+                "uniform mat4 u_MVPMatrix;      \n"
+                        + "attribute vec4 a_Position;     \n"
+                        + "void main()                    \n"
+                        + "{                              \n"
+                        + "   gl_Position = u_MVPMatrix * a_Position;   \n"
+                        + "   gl_PointSize = 5.0;       \n"
+                        + "}                              \n";
 
         final String fragmentShader =
                 "precision mediump float;       \n"
@@ -205,12 +203,9 @@ public class OpenGL20Render implements GLSurfaceView.Renderer {
     public void onDrawFrame(GL10 glUnused) {
 
         GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
-        final long start = System.currentTimeMillis();
-        if(mIsRunning)
+
+        if (mIsRunning)
             calcul();
-        final long end = System.currentTimeMillis();
-        final long time = end - start;
-        //Log.i(TAG, "time : " + time);
 
         vertexBuf.position(0);
 

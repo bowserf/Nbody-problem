@@ -1,12 +1,12 @@
 package fr.bowserf.nbodyproblem;
 
 import android.content.Context;
-
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.Type;
 import android.support.annotation.NonNull;
-import android.support.v8.renderscript.Allocation;
-import android.support.v8.renderscript.Element;
-import android.support.v8.renderscript.RenderScript;
-import android.support.v8.renderscript.Type;
+
 
 public class CalculationGPU extends ComputationFunction {
 
