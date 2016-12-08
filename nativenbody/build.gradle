@@ -1,0 +1,29 @@
+apply plugin: 'com.android.model.native'
+
+model {
+    android {
+        compileSdkVersion rootProject.ext.compileSdkVersion
+    }
+
+    android.ndk {
+        moduleName = "nbody"
+        ldLibs.addAll(["log", "android"])
+        abiFilters.addAll(["armeabi", "armeabi-v7a", "x86"])
+        CFlags.add("-std=c99")
+        CFlags.add("-DANDROID_SOUND_SYSTEM")
+        cppFlags.add("-std=c++11")
+        cppFlags.add("-DANDROID_SOUND_SYSTEM")
+        stl "stlport_static"
+        platformVersion = 17 //same as minSdkVersion.apiLevel for better compatibility
+    }
+
+    android.sources {
+        main {
+            jni {
+                exportedHeaders {
+                    srcDir "src/main/jni"
+                }
+            }
+        }
+    }
+}

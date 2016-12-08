@@ -22,7 +22,7 @@ import fr.bowserf.nbodyproblem.opengl.OpenGLView;
 public class MainActivity extends Activity implements RadioGroup.OnCheckedChangeListener, View.OnClickListener{
 
     @SuppressWarnings("unused")
-    private static final String TAG = "MAIN_ACTIVITY";
+    private static final String TAG = "MainActivity";
 
     private static final int STEP_BODIES = 25;
 
@@ -49,20 +49,13 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
         }
 
         mGLSurfaceView = (OpenGLView) findViewById(R.id.openglview_ncorps);
-        assert (mGLSurfaceView != null);
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        assert (mDrawer != null);
         mLinearLayout = (LinearLayout) findViewById(R.id.left_drawer);
-        assert (mLinearLayout != null);
 
         final TextView tvNbCorps = (TextView) findViewById(R.id.tv_nb_corps);
-        assert (tvNbCorps != null);
         final Button lessBody = (Button)findViewById(R.id.less_body);
-        assert(lessBody != null);
         final Button moreBody = (Button)findViewById(R.id.more_body);
-        assert(moreBody != null);
         final RadioGroup chooseMethod = (RadioGroup) findViewById(R.id.radio_group_method);
-        assert (chooseMethod != null);
 
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,

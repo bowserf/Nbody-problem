@@ -1,1 +1,1 @@
-include ':nbody'
+include ':app', ':nativenbody', ':nbody'

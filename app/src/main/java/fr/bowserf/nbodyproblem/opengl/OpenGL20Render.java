@@ -18,7 +18,7 @@ import fr.bowserf.nbodyproblem.ComputationFunction;
 
 public class OpenGL20Render implements GLSurfaceView.Renderer {
 
-    private static final String TAG = "OPENGL_RENDER";
+    private static final String TAG = "OpenGL20Render";
 
     private float[] mModelMatrix = new float[16];
     private float[] mViewMatrix = new float[16];

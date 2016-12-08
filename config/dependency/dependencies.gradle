@@ -1,0 +1,12 @@
+//Dependencies file to be used in the core module gradle
+
+//Android
+def supportLibraryVersion = "25.0.1"
+
+rootProject.ext.dependencies = [
+        //Support library
+        supportAppCompatV7           : "com.android.support:appcompat-v7:$supportLibraryVersion",
+        supportAppCompatV4           : "com.android.support:support-core-ui:$supportLibraryVersion",
+]
+
+

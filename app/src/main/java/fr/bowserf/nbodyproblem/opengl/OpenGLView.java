@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 public class OpenGLView extends GLSurfaceView {
 
     @SuppressWarnings("unused")
-    private static final String TAG = "OPENGL_VIEW";
+    private static final String TAG = "OpenGLView";
 
     private OpenGL20Render mRenderer;
 

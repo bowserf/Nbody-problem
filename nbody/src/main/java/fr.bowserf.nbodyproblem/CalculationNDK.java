@@ -3,8 +3,11 @@ package fr.bowserf.nbodyproblem;
 
 public class CalculationNDK extends ComputationFunction{
 
+    @SuppressWarnings("unused")
+    private static final String TAG = "CalculationNDK";
+
     static{
-        System.loadLibrary("computeposition");
+        System.loadLibrary("nbody");
     }
 
     private native void init(final int n, final float epsilon, final float G, final float[]p,

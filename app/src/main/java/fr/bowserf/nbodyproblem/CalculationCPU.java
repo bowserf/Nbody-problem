@@ -7,7 +7,7 @@ import java.util.Arrays;
 public class CalculationCPU extends ComputationFunction {
 
     @SuppressWarnings("unused")
-    private static final String TAG = "CALCULATION_CPU";
+    private static final String TAG = "CalculationCPU";
 
     private float squaredEpsilon = (float) Math.pow(Constantes.EPSILON, 2);
 

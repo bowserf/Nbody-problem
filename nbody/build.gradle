@@ -1,60 +1,28 @@
-import org.apache.tools.ant.taskdefs.condition.Os
+apply plugin: 'com.android.model.library'
 
-apply plugin: 'com.android.application'
+model {
+    android {
+        compileSdkVersion rootProject.ext.compileSdkVersion
+        buildToolsVersion rootProject.ext.buildToolsVersion
 
-android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
-
-    defaultConfig {
-        applicationId "fr.bowserf.nbodyproblem"
-        minSdkVersion 14
-        targetSdkVersion 21
-        versionCode 1
-        versionName "1"
-        renderscriptTargetApi 19
-        renderscriptSupportModeEnabled false
-    }
-    buildTypes {
-        release {
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
-            minifyEnabled true
-            shrinkResources true
+        defaultConfig.with {
+            minSdkVersion.apiLevel rootProject.ext.minSdkVersion
+            targetSdkVersion.apiLevel rootProject.ext.targetSdkVersion
         }
     }
 
-    sourceSets.main {
-        jni.srcDirs = []
-        jniLibs.srcDir 'src/main/libs'
-    }
-
-    productFlavors {
-        armeabi {
-            ndk {
-                abiFilters "armeabi-v7a", "armeabi"
+    android.sources {
+        main {
+            jniLibs {
+                dependencies {
+                    project ":nativenbody"
+                }
             }
         }
-    }
-
-    task ndkBuild(type: Exec) {
-        String MainDirectory = System.getProperty("user.dir") + '\\nbody\\src\\main'
-        println "Main app directory for NDK build " + MainDirectory
-        if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-            commandLine 'ndk-build.cmd', "NDK_PROJECT_PATH="+MainDirectory, '-j'
-        }
-        else {
-            commandLine 'ndk-build', MainDirectory, '-j'
-        }
-    }
-
-    tasks.withType(JavaCompile) {
-        compileTask -> compileTask.dependsOn ndkBuild
     }
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:21.0.3'
-    compile 'com.android.support:support-annotations:21.0.0'
-    compile "com.android.support:support-v4:21.0.3"
+    compile 'com.android.support:support-annotations:25.0.1'
 }
+

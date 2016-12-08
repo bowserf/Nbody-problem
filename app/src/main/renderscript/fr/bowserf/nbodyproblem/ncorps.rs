@@ -37,7 +37,7 @@ void root(const int32_t *v_in, int32_t *v_out, const void *usrData, uint32_t x, 
 	float3 acc = {0,0,0};
 
 	float squaredEpsilon = pow(epsilon, 2);
-	
+
 	for(int w = 0 ; w < N ; w++){
 		int j = w * 3;
 
@@ -49,7 +49,7 @@ void root(const int32_t *v_in, int32_t *v_out, const void *usrData, uint32_t x, 
 
 		acc = additionFloat3(acc, multFloat3(1/denominateur, numerateur));
 	}
-	
+
 	float3 acceleration = multFloat3(G, acc);
 
 	speed[i] +=  acceleration[0];
