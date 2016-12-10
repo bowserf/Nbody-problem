@@ -9,7 +9,8 @@ public class CalculationCPU extends ComputationFunction {
     @SuppressWarnings("unused")
     private static final String TAG = "CalculationCPU";
 
-    private float squaredEpsilon = (float) Math.pow(Constantes.EPSILON, 2);
+    private static final float SQUARE_EPSILON = (float) Math.pow(Constantes.EPSILON, 2);
+    private static final float THREE_AND_HALF = 3/2;
 
     public CalculationCPU(final int nbPoints) {
         super(nbPoints);
@@ -55,7 +56,7 @@ public class CalculationCPU extends ComputationFunction {
             for (int j = 0; j < N; j++) {
                 final int cptJ = j * 3;
                 final float squaredNorm = squaredNorm(Arrays.copyOfRange(p, cpt, cpt + 3), Arrays.copyOfRange(p, cptJ, cptJ + 3));
-                float denominateur = (float) Math.pow(squaredNorm + squaredEpsilon, 3 / 2);
+                float denominateur = (float) Math.pow(squaredNorm + SQUARE_EPSILON, THREE_AND_HALF);
                 float[] numerateur = multiplication(m[j], subtraction(Arrays.copyOfRange(p, cpt, cpt + 3), Arrays.copyOfRange(p, cptJ, cptJ + 3)));
                 acc = addition(acc, multiplication(1 / denominateur, numerateur));
             }
