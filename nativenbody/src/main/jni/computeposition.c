@@ -6,6 +6,8 @@
 
 #define LOGI(...) ((void)__android_log_print(ANDROID_LOG_INFO, "computeposition-ndk", __VA_ARGS__))
 
+#define THREE_AND_HALF 3/2
+
 jfloat squaredEpsilon;
 jlong N;
 jfloat G;
@@ -27,9 +29,8 @@ JNIEXPORT void JNICALL Java_fr_bowserf_nbodyproblem_CalculationNDK_init
     v = (*env)->GetFloatArrayElements(env, _v, 0);
     m = (*env)->GetFloatArrayElements(env, _m, 0);
 
-    jfloatArray result2;
-    result2 = (*env)->NewFloatArray(env, N*3);
-    result = (jfloatArray)(*env)->NewGlobalRef(env, result2);
+    jfloatArray tmp = (*env)->NewFloatArray(env, N*3);
+    result = (jfloatArray)(*env)->NewGlobalRef(env, tmp);
 }
 
 float* subtraction(float *p1, float *p2){
@@ -77,16 +78,16 @@ JNIEXPORT jfloatArray JNICALL Java_fr_bowserf_nbodyproblem_CalculationNDK_comput
 
 		for(int j = 0 ; j < N ; j++){
             float square = squaredNorm(p + i * 3, p + j * 3);
-            float denominateur = (float) pow(square + squaredEpsilon, 3/2);
-			float *resultSub = subtraction(p + i * 3, p + j * 3);
-			float *numerateur = mult(m[j], resultSub);
-			float *resultMult = mult(1/denominateur, numerateur);
+            float denominateur = (float) pow(square + squaredEpsilon, THREE_AND_HALF);
+			float* resultSub = subtraction(p + i * 3, p + j * 3);
+			float* numerateur = mult(m[j], resultSub);
+			float* resultMult = mult(1 / denominateur, numerateur);
 			add(acc, resultMult);
 
-			free(resultMult);
 			free(resultSub);
-			free(numerateur);
-		}
+            free(numerateur);
+            free(resultMult);
+        }
 
 		float *tmp_v = addition(v + i * 3, mult(G, acc));
 
@@ -118,6 +119,9 @@ JNIEXPORT void JNICALL Java_fr_bowserf_nbodyproblem_CalculationNDK_freeNativeMem
     (*env)->DeleteGlobalRef(env, result);
     result = NULL;
     free(m);
+    m = NULL;
     free(p);
+    p = NULL;
     free(v);
+    v = NULL;
 }
