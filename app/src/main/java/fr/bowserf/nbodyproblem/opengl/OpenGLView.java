@@ -16,6 +16,7 @@ public class OpenGLView extends GLSurfaceView {
         super(context, attrs);
 
         setEGLContextClientVersion(2);
+
         mRenderer = new OpenGL20Render();
         setRenderer(mRenderer);
     }
