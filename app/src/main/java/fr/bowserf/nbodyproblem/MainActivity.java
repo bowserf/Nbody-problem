@@ -163,19 +163,17 @@ public class MainActivity extends AppCompatActivity implements
         switch (mMethod) {
             case COMPUTATION_JAVA:
                 mFunction = new CalculationCPU(mNbBodiesNumber);
-                mGLSurfaceView.getRenderer().initialisation(mFunction, mNbBodiesNumber);
                 break;
             case COMPUTATION_RENDERSCRIPT:
                 mFunction = new CalculationGPU(this, mNbBodiesNumber);
-                mGLSurfaceView.getRenderer().initialisation(mFunction, mNbBodiesNumber);
                 break;
             case COMPUTATION_NDK:
                 mFunction = new CalculationNDK(mNbBodiesNumber);
-                mGLSurfaceView.getRenderer().initialisation(mFunction, mNbBodiesNumber);
                 break;
             default:
-                break;
+                throw new IllegalStateException("Method action is not managed : " + mMethod);
         }
+        mGLSurfaceView.getRenderer().initialisation(mFunction);
     }
 
     @Override
@@ -227,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements
 
         initializeFunction();
 
-        mGLSurfaceView.getRenderer().initialisation(mFunction, mNbBodiesNumber);
+        mGLSurfaceView.getRenderer().initialisation(mFunction);
     }
 
 }

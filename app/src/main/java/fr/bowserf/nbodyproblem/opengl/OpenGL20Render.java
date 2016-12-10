@@ -41,13 +41,13 @@ public class OpenGL20Render implements GLSurfaceView.Renderer {
 
     public OpenGL20Render() {
         mFunction = new CalculationCPU(50);
-        initialisation(mFunction, 50);
+        initialisation(mFunction);
     }
 
-    public void initialisation(final @NonNull ComputationFunction function, final int nbPoints) {
-        this.N = nbPoints;
-        mFunction = function;
-        mIsRunning = false;
+    public void initialisation(final @NonNull ComputationFunction function) {
+        this.mFunction = function;
+        this.mIsRunning = false;
+        this.N = function.getNumberBodies();
 
         vertices = mFunction.getInitialPosition();
 
