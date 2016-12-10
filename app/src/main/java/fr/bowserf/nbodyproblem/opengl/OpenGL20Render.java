@@ -46,31 +46,35 @@ public class OpenGL20Render implements GLSurfaceView.Renderer {
 
     public void initialisation(final @NonNull ComputationFunction function, final int nbPoints) {
         this.N = nbPoints;
-        vertices = new float[N * 3];
         mFunction = function;
         mIsRunning = false;
+
         vertices = mFunction.getInitialPosition();
+
+        vertexBuf = ByteBuffer.allocateDirect(vertices.length * 4)
+                .order(ByteOrder.nativeOrder())
+                .asFloatBuffer();
+
         fillBuffer();
     }
 
-    private void calcul() {
-        final long start = System.currentTimeMillis();
+    private void calculation() {
+        //final long start = System.currentTimeMillis();
         vertices = mFunction.computation();
-        final long end = System.currentTimeMillis();
-        final long time = end - start;
-        Log.i(TAG, "time : " + time);
+        //final long end = System.currentTimeMillis();
+        //final long time = end - start;
+        //Log.i(TAG, "time : " + time);
 
         fillBuffer();
     }
 
     private void fillBuffer() {
-        vertexBuf = ByteBuffer.allocateDirect(vertices.length * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
         vertexBuf.put(vertices).position(0);
     }
 
     @Override
     public void onSurfaceCreated(GL10 glUnused, EGLConfig config) {
-        calcul();
+        calculation();
 
         // Set the background clear color to black.
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -158,8 +162,9 @@ public class OpenGL20Render implements GLSurfaceView.Renderer {
         // Create the shader object
         shader = GLES20.glCreateShader(type);
 
-        if (shader == 0)
+        if (shader == 0) {
             return 0;
+        }
 
         // Load the shader source
         GLES20.glShaderSource(shader, shaderSrc);
@@ -201,13 +206,11 @@ public class OpenGL20Render implements GLSurfaceView.Renderer {
 
     @Override
     public void onDrawFrame(GL10 glUnused) {
-
         GLES20.glClear(GLES20.GL_DEPTH_BUFFER_BIT | GLES20.GL_COLOR_BUFFER_BIT);
 
-        if (mIsRunning)
-            calcul();
-
-        vertexBuf.position(0);
+        if (mIsRunning) {
+            calculation();
+        }
 
         GLES20.glVertexAttribPointer(mPositionHandle, 3, GLES20.GL_FLOAT, false, mStrideBytes, vertexBuf);
         GLES20.glEnableVertexAttribArray(mPositionHandle);
