@@ -1,15 +1,7 @@
 <resources>
 
-    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
-        <!--<item name="drawerArrowStyle">@style/DrawerArrowStyle</item>-->
-    </style>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
-    <!--<style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
-        <item name="spinBars">false</item>
-        <item name="color">@android:color/white</item>
-        <item name="thickness">2dp</item>
-        <item name="gapBetweenBars">4dp</item>
-        <item name="barSize">12dp</item>
-    </style>-->
+    </style>
 
 </resources>
