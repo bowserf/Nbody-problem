@@ -10,8 +10,12 @@ public class CalculationNDK extends ComputationFunction{
         System.loadLibrary("nbody");
     }
 
-    private native void init(final int n, final float epsilon, final float G, final float[]p,
-                                final float[]v, final float[]m);
+    private native void init(final int n,
+                             final float epsilon,
+                             final float G,
+                             final float[]p,
+                             final float[]v,
+                             final float[]m);
     private native float[] computeNewPosition();
     private native void freeNativeMemory();
 
@@ -19,8 +23,8 @@ public class CalculationNDK extends ComputationFunction{
         super(nbPoints);
 
         initPosition(Constantes.MIN_POSITION, Constantes.MAX_POSITION);
-        initMasse(Constantes.MIN_MASSE, Constantes.MAX_MASSE);
-        initVitesse();
+        initMass(Constantes.MIN_MASSE, Constantes.MAX_MASSE);
+        initSpeed();
 
         init(nbPoints, Constantes.EPSILON, Constantes.G, p, v, m);
     }

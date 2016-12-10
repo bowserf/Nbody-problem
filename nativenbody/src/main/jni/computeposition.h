@@ -1,7 +1,8 @@
 #include <jni.h>
 
-#ifndef _Included_fr_bowserf_nbodyproblem_CalculationNDK
-#define _Included_fr_bowserf_nbodyproblem_CalculationNDK
+#ifndef CalculationNDK
+#define CalculationNDK
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -18,4 +19,5 @@ JNIEXPORT jfloatArray JNICALL Java_fr_bowserf_nbodyproblem_CalculationNDK_comput
 #ifdef __cplusplus
 }
 #endif
-#endif
+
+#endif //CalculationNDK

@@ -15,24 +15,26 @@ public abstract class ComputationFunction {
         this.p = new float[N * 3];
     }
 
-    protected float randomVal(final float b_inf, final float b_max) {
-        return (float)(b_inf + (Math.random() * (b_max - b_inf)));
+    protected float randomVal(final float inf, final float max) {
+        return (float)(inf + (Math.random() * (max - inf)));
     }
 
     protected void initPosition(final float minP, final float maxP) {
-        for (int i = 0; i < N * 3; i++) {
+        final int iterationNumber = N * 3;
+        for (int i = 0; i < iterationNumber; i++) {
             p[i] = randomVal(minP, maxP);
         }
     }
 
-    protected void initMasse(final float minM, final float maxM) {
+    protected void initMass(final float minM, final float maxM) {
         for (int i = 0; i < N; i++) {
             m[i] = randomVal(minM, maxM);
         }
     }
 
-    protected void initVitesse() {
-        for (int i = 0; i < N * 3; i++) {
+    protected void initSpeed() {
+        final int iterationNumber = N * 3;
+        for (int i = 0; i < iterationNumber; i++) {
             v[i] = 0;
         }
     }

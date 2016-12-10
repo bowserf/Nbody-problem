@@ -15,8 +15,8 @@ public class CalculationCPU extends ComputationFunction {
         super(nbPoints);
 
         initPosition(Constantes.MIN_POSITION, Constantes.MAX_POSITION);
-        initMasse(Constantes.MIN_MASSE, Constantes.MAX_MASSE);
-        initVitesse();
+        initMass(Constantes.MIN_MASSE, Constantes.MAX_MASSE);
+        initSpeed();
     }
 
     private float[] subtraction(final @NonNull float[] p1, final @NonNull float[] p2) {

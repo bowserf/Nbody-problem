@@ -21,7 +21,7 @@ static float3 additionFloat3(float3 p1, float3 p2){
     return rep;
 }
 
-static float3 soustraction(float *p1, float *p2){
+static float3 subtraction(float *p1, float *p2){
     float3 rep = {*p2 - *p1, *(p2+1) - *(p1+1), *(p2+2) - *(p1+2)};
     return rep;
 }
@@ -44,7 +44,7 @@ void root(const int32_t *v_in, int32_t *v_out, const void *usrData, uint32_t x, 
 		float squared = squaredNorm(positions[j] - positions[i], positions[j+1] - positions[i+1], positions[j+2] - positions[i+2]);
 		float denominateur = pow(squared  + squaredEpsilon, 3/2);
 
-		float3 diff = soustraction(positions + i, positions + j);
+		float3 diff = subtraction(positions + i, positions + j);
 		float3 numerateur = multFloat3(mass[w], diff);
 
 		acc = additionFloat3(acc, multFloat3(1/denominateur, numerateur));

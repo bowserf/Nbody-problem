@@ -40,8 +40,8 @@ public class CalculationGPU extends ComputationFunction {
         final Allocation masseAlloc = Allocation.createTyped(rs, t2);
 
         initPosition(Constantes.MIN_POSITION, Constantes.MAX_POSITION);
-        initMasse(Constantes.MIN_MASSE, Constantes.MAX_MASSE);
-        initVitesse();
+        initMass(Constantes.MIN_MASSE, Constantes.MAX_MASSE);
+        initSpeed();
 
         mRowIndicesAlloc.copyFrom(rowIndices);
         positionAlloc.copyFrom(p);
