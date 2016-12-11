@@ -18,7 +18,7 @@ jfloat *p = NULL;
 
 static jfloatArray result = NULL;
 
-JNIEXPORT void JNICALL Java_fr_bowserf_nbodyproblem_CalculationNDK_init
+void Java_fr_bowserf_nbodyproblem_CalculationNDK_init
 (JNIEnv *env, jobject obj, jint _N, jfloat _epsilon, jfloat _G, jfloatArray _p, jfloatArray _v, jfloatArray _m){
 
     squaredEpsilon = pow(_epsilon, 2);
@@ -67,7 +67,7 @@ float squaredNorm(float *p1, float *p2){
 	return (float) sqrt(pow(p2[0] - p1[0], 2) + pow(p2[1] - p1[1], 2) + pow(p2[2] - p1[2], 2));
 }
 
-JNIEXPORT jfloatArray JNICALL Java_fr_bowserf_nbodyproblem_CalculationNDK_computeNewPosition(JNIEnv *env, jobject obj){
+jfloatArray Java_fr_bowserf_nbodyproblem_CalculationNDK_computeNewPosition(JNIEnv *env, jobject obj){
 
 	int numberCoordinates = N * 3;
 	float *newPositions = (float*)malloc((numberCoordinates) * sizeof(float));
@@ -115,7 +115,7 @@ JNIEXPORT jfloatArray JNICALL Java_fr_bowserf_nbodyproblem_CalculationNDK_comput
 	return result;
 }
 
-JNIEXPORT void JNICALL Java_fr_bowserf_nbodyproblem_CalculationNDK_freeNativeMemory(JNIEnv *env, jobject object){
+void Java_fr_bowserf_nbodyproblem_CalculationNDK_freeNativeMemory(JNIEnv *env, jobject object){
     (*env)->DeleteGlobalRef(env, result);
     result = NULL;
     free(m);
