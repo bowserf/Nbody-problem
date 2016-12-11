@@ -65,9 +65,8 @@ public class MainActivity extends AppCompatActivity implements
     /**
      * Integer used to know which method has been chosen.
      */
-    private
     @ComputationMode
-    int mMethod = COMPUTATION_JAVA;
+    private int mMethod;
 
     /**
      * Current number of bodies.²
@@ -106,15 +105,19 @@ public class MainActivity extends AppCompatActivity implements
         btnLessBody.setOnClickListener(this);
         btnMoreBody.setOnClickListener(this);
 
-        mFunction = mGLSurfaceView.getRenderer().getFunction();
+        mFunction = new CalculationCPU(mNbBodiesNumber);
+        mMethod = COMPUTATION_JAVA;
+        mGLSurfaceView.initialisation(mFunction);
     }
 
     @Override
     public boolean onOptionsItemSelected(final @NonNull MenuItem item) {
         if (item.getItemId() == R.id.menu_start_stop_animation) {
             mIsRunning = !mIsRunning;
-            item.setTitle(getResources().getString(mIsRunning ? R.string.stop : R.string.menu_start));
-            mGLSurfaceView.getRenderer().setIsRunning(mIsRunning);
+            item.setTitle(getResources().getString(mIsRunning
+                    ? R.string.menu_stop
+                    : R.string.menu_start));
+            mGLSurfaceView.setIsRunning(mIsRunning);
         } else if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
@@ -137,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onCheckedChanged(final @NonNull RadioGroup group, final int checkedId) {
         mIsRunning = false;
-        mGLSurfaceView.getRenderer().setIsRunning(false);
+        mGLSurfaceView.setIsRunning(mIsRunning);
         invalidateOptionsMenu();
 
         switch (checkedId) {
@@ -173,7 +176,7 @@ public class MainActivity extends AppCompatActivity implements
             default:
                 throw new IllegalStateException("Method action is not managed : " + mMethod);
         }
-        mGLSurfaceView.getRenderer().initialisation(mFunction);
+        mGLSurfaceView.initialisation(mFunction);
     }
 
     @Override
@@ -220,12 +223,12 @@ public class MainActivity extends AppCompatActivity implements
                 break;
         }
 
-
+        // update number bodies textview
         mTvNbBodies.setText(String.valueOf(mNbBodiesNumber));
 
         initializeFunction();
 
-        mGLSurfaceView.getRenderer().initialisation(mFunction);
+        mGLSurfaceView.initialisation(mFunction);
     }
 
 }

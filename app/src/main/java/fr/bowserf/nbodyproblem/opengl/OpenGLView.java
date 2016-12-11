@@ -5,6 +5,8 @@ import android.opengl.GLSurfaceView;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 
+import fr.bowserf.nbodyproblem.ComputationFunction;
+
 public class OpenGLView extends GLSurfaceView {
 
     @SuppressWarnings("unused")
@@ -12,7 +14,7 @@ public class OpenGLView extends GLSurfaceView {
 
     private OpenGL20Render mRenderer;
 
-    public OpenGLView(final @NonNull Context context, final @NonNull AttributeSet attrs) {
+    public OpenGLView(@NonNull final Context context, @NonNull final AttributeSet attrs) {
         super(context, attrs);
 
         setEGLContextClientVersion(2);
@@ -21,8 +23,11 @@ public class OpenGLView extends GLSurfaceView {
         setRenderer(mRenderer);
     }
 
+    public void setIsRunning(final boolean isRunning) {
+        mRenderer.setIsRunning(isRunning);
+    }
 
-    public OpenGL20Render getRenderer() {
-        return mRenderer;
+    public void initialisation(@NonNull final ComputationFunction function) {
+        mRenderer.initialisation(function);
     }
 }

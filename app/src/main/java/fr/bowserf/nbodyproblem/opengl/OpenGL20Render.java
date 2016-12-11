@@ -13,10 +13,10 @@ import java.nio.FloatBuffer;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import fr.bowserf.nbodyproblem.CalculationCPU;
 import fr.bowserf.nbodyproblem.ComputationFunction;
 
-public class OpenGL20Render implements GLSurfaceView.Renderer {
+/* package */
+class OpenGL20Render implements GLSurfaceView.Renderer {
 
     private static final String TAG = "OpenGL20Render";
 
@@ -39,12 +39,8 @@ public class OpenGL20Render implements GLSurfaceView.Renderer {
     private ComputationFunction mFunction;
     private boolean mIsRunning;
 
-    public OpenGL20Render() {
-        mFunction = new CalculationCPU(50);
-        initialisation(mFunction);
-    }
-
-    public void initialisation(final @NonNull ComputationFunction function) {
+    /* package */
+    void initialisation(final @NonNull ComputationFunction function) {
         this.mFunction = function;
         this.mIsRunning = false;
         this.N = function.getNumberBodies();
@@ -58,24 +54,8 @@ public class OpenGL20Render implements GLSurfaceView.Renderer {
         fillBuffer();
     }
 
-    private void calculation() {
-        //final long start = System.currentTimeMillis();
-        vertices = mFunction.computation();
-        //final long end = System.currentTimeMillis();
-        //final long time = end - start;
-        //Log.i(TAG, "time : " + time);
-
-        fillBuffer();
-    }
-
-    private void fillBuffer() {
-        vertexBuf.put(vertices).position(0);
-    }
-
     @Override
     public void onSurfaceCreated(GL10 glUnused, EGLConfig config) {
-        calculation();
-
         // Set the background clear color to black.
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
@@ -223,11 +203,23 @@ public class OpenGL20Render implements GLSurfaceView.Renderer {
         GLES20.glDrawArrays(GLES20.GL_POINTS, 0, N);
     }
 
-    public void setIsRunning(boolean isRunning) {
+    private void calculation() {
+        //final long start = System.currentTimeMillis();
+        vertices = mFunction.computation();
+        //final long end = System.currentTimeMillis();
+        //final long time = end - start;
+        //Log.i(TAG, "time : " + time);
+
+        fillBuffer();
+    }
+
+    private void fillBuffer() {
+        vertexBuf.put(vertices).position(0);
+    }
+
+    /* package */
+    void setIsRunning(boolean isRunning) {
         this.mIsRunning = isRunning;
     }
 
-    public ComputationFunction getFunction() {
-        return mFunction;
-    }
 }
