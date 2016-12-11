@@ -7,7 +7,7 @@
 	<string name="radio_button_rs">RenderScript</string>
 	<string name="radio_button_ndk">NDK</string>
 	<string name="menu_start">Start</string>
-	<string name="stop">Stop</string>
+	<string name="menu_stop">Stop</string>
 	<string name="choose_nb_bodies">Choose number of bodies : </string>
 
 	<string name="drawer_open">Control panel</string>
