@@ -64,7 +64,6 @@ public class CalculationGPU extends ComputationFunction {
     public float[] computation() {
         mScript.forEach_root(mRowIndicesAlloc, mRowIndicesAlloc);
         mNewPositionsAlloc.copyTo(p);
-        mScript.bind_positions(mNewPositionsAlloc);
         return p;
     }
 }

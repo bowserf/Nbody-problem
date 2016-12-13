@@ -55,7 +55,13 @@ void root(const int32_t *v_in, int32_t *v_out, const void *usrData, uint32_t x, 
 	speed[i] +=  acceleration[0];
 	speed[i+1] +=  acceleration[1];
 	speed[i+2] +=  acceleration[2];
+
 	newPositions[i] = speed[i] + positions[i];
 	newPositions[i+1] = speed[i+1] + positions[i+1];
 	newPositions[i+2] = speed[i+2] + positions[i+2];
+
+	// copy new position into position for next step
+	positions[i] = newPositions[i];
+    positions[i+1] = newPositions[i+1];
+    positions[i+2] = newPositions[i+2];
 }
