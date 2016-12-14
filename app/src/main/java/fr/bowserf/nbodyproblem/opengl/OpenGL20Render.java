@@ -133,6 +133,12 @@ class OpenGL20Render implements GLSurfaceView.Renderer {
 
         // Tell OpenGL to use this program when rendering.
         GLES20.glUseProgram(programHandle);
+
+        Matrix.setIdentityM(mModelMatrix, 0);
+        Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
+        Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
+
+        GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
     }
 
     private int loadShader(int type, String shaderSrc) {
@@ -195,11 +201,6 @@ class OpenGL20Render implements GLSurfaceView.Renderer {
         GLES20.glVertexAttribPointer(mPositionHandle, 3, GLES20.GL_FLOAT, false, mStrideBytes, vertexBuf);
         GLES20.glEnableVertexAttribArray(mPositionHandle);
 
-        Matrix.setIdentityM(mModelMatrix, 0);
-        Matrix.multiplyMM(mMVPMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
-        Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mMVPMatrix, 0);
-
-        GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mMVPMatrix, 0);
         GLES20.glDrawArrays(GLES20.GL_POINTS, 0, N);
     }
 
